@@ -1,63 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal|center_vertical"
     android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="#FFF3E3">
 
-    <!-- Título -->
-    <TextView
-        android:id="@+id/txtTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CONSULTORIO DENTAL UCSM"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginBottom="32dp" />
-
-    <!-- Botones -->
-    <Button
-        android:id="@+id/btnAgendarCita"
+    <!-- Contenedor principal (LinearLayout para los elementos actuales) -->
+    <LinearLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agendar Cita"
-        android:backgroundTint="#4CAF50"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|center_vertical">
 
-    <Button
-        android:id="@+id/btnModificarCita"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Modificar Cita"
-        android:backgroundTint="#4CAF50"
-        android:layout_marginBottom="12dp" />
+        <!-- Título -->
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONSULTORIO DENTAL UCSM"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="32dp" />
 
-    <Button
-        android:id="@+id/btnEliminarCita"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Eliminar Cita"
-        android:backgroundTint="#4CAF50"
-        android:layout_marginBottom="12dp" />
+        <!-- Botones -->
+        <Button
+            android:id="@+id/btnAgendarCita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agendar Cita"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="12dp" />
 
-    <Button
-        android:id="@+id/btnListarCitas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Listar Citas Agendadas"
-        android:backgroundTint="#4CAF50"
-        android:layout_marginBottom="24dp" />
+        <Button
+            android:id="@+id/btnModificarCita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modificar Cita"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="12dp" />
 
-    <!-- Ícono -->
-    <ImageView
-        android:id="@+id/imgIcono"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/logo"
-        android:contentDescription="Logo del Consultorio Dental UCSM"
-        android:layout_marginTop="32dp"/>
+        <Button
+            android:id="@+id/btnEliminarCita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar Cita"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="12dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnListarCitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Listar Citas Agendadas"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Ícono -->
+        <ImageView
+            android:id="@+id/imgIcono"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/logo"
+            android:contentDescription="Logo del Consultorio Dental UCSM"
+            android:layout_marginTop="32dp" />
+    </LinearLayout>
+
+    <!-- Botón de cerrar sesión como ícono (posición abajo a la derecha) -->
+    <ImageButton
+        android:id="@+id/btnLogout"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/baseline_logout_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Cerrar sesión"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:elevation="4dp"
+        android:scaleType="fitCenter" />
+</RelativeLayout>

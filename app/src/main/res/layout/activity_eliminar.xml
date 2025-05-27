@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#FFF3E3">
 
     <EditText
         android:id="@+id/etIdCitaEliminar"

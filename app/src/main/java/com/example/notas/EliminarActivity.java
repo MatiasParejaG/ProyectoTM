@@ -1,63 +1,147 @@
 package com.example.notas;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
 public class EliminarActivity extends AppCompatActivity {
 
-    EditText etIdCitaEliminar;
-    Button btnEliminar;
-    DatabaseReference citasRef;
+    private EditText etIdCitaEliminar;
+    private Button btnEliminar;
+    private DatabaseReference userCitasRef;
+    private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eliminar);
 
-        etIdCitaEliminar = findViewById(R.id.etIdCitaEliminar); // Aquí debes ingresar el ID numérico autogenerado
+        // Inicializar Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Verificar que el usuario esté logueado
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Debe iniciar sesión primero", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // Inicializar vistas
+        etIdCitaEliminar = findViewById(R.id.etIdCitaEliminar);
         btnEliminar = findViewById(R.id.btnEliminar);
-        citasRef = FirebaseDatabase.getInstance().getReference("citas");
 
-        btnEliminar.setOnClickListener(v -> {
-            String idCita = etIdCitaEliminar.getText().toString().trim();
+        // Configurar ProgressDialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Eliminando cita...");
+        progressDialog.setCancelable(false);
 
-            if (idCita.isEmpty()) {
-                Toast.makeText(this, "Ingrese un ID de cita válido", Toast.LENGTH_SHORT).show();
-                return;
+        // Referencia a las citas del usuario actual
+        String userId = mAuth.getCurrentUser().getUid();
+        userCitasRef = FirebaseDatabase.getInstance().getReference("citas").child(userId);
+
+        btnEliminar.setOnClickListener(v -> eliminarCita());
+    }
+
+    private void eliminarCita() {
+        String idCitaStr = etIdCitaEliminar.getText().toString().trim();
+
+        // Validar ID
+        if (idCitaStr.isEmpty()) {
+            etIdCitaEliminar.setError("Ingrese un ID de cita");
+            etIdCitaEliminar.requestFocus();
+            return;
+        }
+
+        if (!idCitaStr.matches("\\d+")) {
+            etIdCitaEliminar.setError("El ID debe ser numérico");
+            etIdCitaEliminar.requestFocus();
+            return;
+        }
+
+        int idCita = Integer.parseInt(idCitaStr);
+        progressDialog.show();
+
+        // Verificar existencia y pertenencia de la cita
+        userCitasRef.child(String.valueOf(idCita)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    mostrarDialogoConfirmacion(idCita, snapshot);
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(EliminarActivity.this,
+                            "No se encontró la cita #" + idCita + " en tus registros",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
 
-            // Validación opcional: asegurar que sea numérico
-            if (!idCita.matches("\\d+")) {
-                Toast.makeText(this, "El ID debe ser un número", Toast.LENGTH_SHORT).show();
-                return;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(EliminarActivity.this,
+                        "Error de conexión: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
-
-            // Verificar si existe la cita
-            citasRef.child(idCita).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        citasRef.child(idCita).removeValue().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(EliminarActivity.this, "Cita eliminada correctamente", Toast.LENGTH_SHORT).show();
-                                etIdCitaEliminar.setText("");
-                            } else {
-                                Toast.makeText(EliminarActivity.this, "Error al eliminar la cita", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(EliminarActivity.this, "No se encontró una cita con ese ID", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    Toast.makeText(EliminarActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                }
-            });
         });
+    }
+
+    private void mostrarDialogoConfirmacion(int idCita, DataSnapshot snapshot) {
+        // Obtener datos de la cita para mostrar en el diálogo
+        String nombrePaciente = snapshot.child("nombre_paciente").getValue(String.class);
+        String fecha = snapshot.child("fecha_cita").getValue(String.class);
+        String hora = snapshot.child("hora_cita").getValue(String.class);
+
+        String mensaje = "¿Eliminar cita #" + idCita + "?\n\n" +
+                "Paciente: " + nombrePaciente + "\n" +
+                "Fecha: " + fecha + "\n" +
+                "Hora: " + hora.substring(0, 5); // Mostrar solo HH:mm
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar eliminación")
+                .setMessage(mensaje)
+                .setPositiveButton("Eliminar", (dialog, which) -> {
+                    ejecutarEliminacion(idCita);
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    progressDialog.dismiss();
+                })
+                .show();
+    }
+
+    private void ejecutarEliminacion(int idCita) {
+        userCitasRef.child(String.valueOf(idCita)).removeValue()
+                .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(EliminarActivity.this,
+                                "Cita #" + idCita + " eliminada correctamente",
+                                Toast.LENGTH_SHORT).show();
+                        etIdCitaEliminar.setText("");
+                        etIdCitaEliminar.requestFocus();
+                    } else {
+                        Toast.makeText(EliminarActivity.this,
+                                "Error al eliminar: " +
+                                        (task.getException() != null ? task.getException().getMessage() : ""),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }
 

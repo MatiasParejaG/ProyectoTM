@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
         btnListarCitas.setOnClickListener(v -> {
             startActivity(new Intent(this, ListarActivity.class));
+        });
+
+        ImageButton btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         });
     }
 }
