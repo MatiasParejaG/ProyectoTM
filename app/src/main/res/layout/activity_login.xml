@@ -23,13 +23,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textColorHint="#9E9B9B"
         android:layout_marginBottom="8dp">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:textColor="#000000"
+
+
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,6 +43,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:color="#000000"
+        android:textColorHint="#9E9B9B"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -44,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
+            android:textColor="#000000"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,6 +63,8 @@
         android:layout_height="wrap_content"
         android:text="Iniciar Sesión"
         android:backgroundTint="#4CAF50"
+        android:textColor="@color/white"
+
         android:layout_marginBottom="12dp" />
 
     <!-- Botón Register -->
@@ -62,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrarse"
+        android:textColor="@color/white"
         android:backgroundTint="#FF9800" />
 
     <!-- Progress Bar -->

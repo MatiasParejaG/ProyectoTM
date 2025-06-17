@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal|center_vertical"
     android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="#FFF3E3">
 
     <!-- Título -->
     <TextView
@@ -23,7 +23,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:textColor="#000000"
+        android:textColorHint="#9E9B9B">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
@@ -37,7 +39,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:textColor="#000000"
+        android:textColorHint="#9E9B9B">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -51,7 +55,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#9E9B9B">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirmPassword"
@@ -67,6 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrarse"
+        android:textColor="@color/white"
         android:backgroundTint="#4CAF50"
         android:layout_marginBottom="24dp" />
 

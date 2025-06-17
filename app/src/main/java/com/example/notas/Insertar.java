@@ -3,6 +3,7 @@ package com.example.notas;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,11 @@ public class Insertar extends AppCompatActivity {
 
     EditText etDni, etNombre, etTelefono, etFecha, etHora;
     Button btnGuardar;
+    ImageButton btnScanDni;
     FirebaseAuth mAuth;
     DatabaseReference citasRef, contadorRef;
     String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,12 @@ public class Insertar extends AppCompatActivity {
         etFecha = findViewById(R.id.etFecha);
         etHora = findViewById(R.id.etHora);
         btnGuardar = findViewById(R.id.btnGuardar);
+        btnScanDni = findViewById(R.id.btnScanDNI);
+        btnScanDni.setOnClickListener(v -> {
+            Intent intent = new Intent(Insertar.this, ScannerActivity.class);
+            startActivityForResult(intent, 100);  // Código de respuesta 100
+        });
+
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
@@ -82,8 +91,22 @@ public class Insertar extends AppCompatActivity {
             timePickerDialog.show();
         });
 
+
+
         btnGuardar.setOnClickListener(v -> guardarCita());
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            String dni = data.getStringExtra("dni");
+            String nombre = data.getStringExtra("nombre");
+            etDni.setText(dni);
+            etNombre.setText(nombre);
+        }
+    }
+
 
     private void guardarCita() {
         String dni = etDni.getText().toString().trim();
@@ -153,6 +176,8 @@ public class Insertar extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void limpiarCampos() {
         etDni.setText("");

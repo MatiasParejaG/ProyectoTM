@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Agendar Cita"
             android:backgroundTint="#4CAF50"
+            android:textColor="@color/white"
             android:layout_marginBottom="12dp" />
 
         <Button
@@ -39,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Modificar Cita"
+            android:textColor="@color/white"
             android:backgroundTint="#4CAF50"
             android:layout_marginBottom="12dp" />
 
@@ -47,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Eliminar Cita"
+            android:textColor="@color/white"
             android:backgroundTint="#4CAF50"
             android:layout_marginBottom="12dp" />
 
@@ -54,7 +57,8 @@
             android:id="@+id/btnListarCitas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Listar Citas Agendadas"
+            android:text="Citas Agendadas"
+            android:textColor="@color/white"
             android:backgroundTint="#4CAF50"
             android:layout_marginBottom="24dp" />
 

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,18 +9,42 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etDni"
+        <!-- DNI con botón escáner -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="DNI del Paciente"
-            android:inputType="number" />
+            android:layout_height="wrap_content">
 
+            <EditText
+                android:id="@+id/etDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DNI del Paciente"
+                android:inputType="number"
+                android:paddingEnd="50dp"
+                android:textColor="#000000"
+                android:textColorHint="#9E9B9B"
+                android:paddingRight="50dp" />
+
+            <ImageButton
+                android:id="@+id/btnScanDNI"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="Escanear DNI"
+                android:src="@android:drawable/ic_menu_camera"/>
+        </RelativeLayout>
+
+        <!-- Otros campos -->
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre Completo"
+            android:textColor="#000000"
+            android:textColorHint="#9E9B9B"
             android:inputType="textPersonName" />
 
         <EditText
@@ -29,13 +52,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Teléfono de Contacto"
+            android:textColor="#000000"
+            android:textColorHint="#9E9B9B"
             android:inputType="phone" />
 
         <EditText
             android:id="@+id/etFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha de la Cita (yyyy-MM-dd)"
+            android:hint="Fecha de la Cita"
+            android:textColor="#000000"
+            android:textColorHint="#9E9B9B"
             android:focusable="false"
             android:clickable="true" />
 
@@ -43,7 +70,9 @@
             android:id="@+id/etHora"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hora de la Cita (HH:mm)"
+            android:hint="Hora de la Cita"
+            android:textColor="#000000"
+            android:textColorHint="#9E9B9B"
             android:focusable="false"
             android:clickable="true" />
 

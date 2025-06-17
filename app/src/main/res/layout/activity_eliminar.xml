@@ -10,7 +10,9 @@
         android:id="@+id/etIdCitaEliminar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID de cita a eliminar"
+        android:hint="ID de cita"
+        android:textColor="#000000"
+        android:textColorHint="#9E9B9B"
         android:inputType="number"
         android:layout_marginBottom="16dp" />
 
